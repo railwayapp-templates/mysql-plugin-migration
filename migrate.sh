@@ -83,9 +83,7 @@ tables=$(mysql --silent --skip-column-names -h"$NEW_HOST" -u"$NEW_USER" -p"$NEW_
 echo "tables=$tables"
 
 if [[ -z "$tables" ]]; then
-  if [ -z "$OVERWRITE_DATABASE" ]; then
-    write_ok "The new database is empty. Proceeding with restore."
-  fi
+  write_ok "The new database is empty. Proceeding with restore."
 else
   if [ -z "$OVERWRITE_DATABASE" ]; then
     error_exit "The new database is not empty. Aborting migration.\nSet the OVERWRITE_DATABASE environment variable to overwrite the new database."
