@@ -1,5 +1,7 @@
 #!/bin/bash
 
+sleep 2
+
 set -o pipefail
 
 export TERM=ansi
