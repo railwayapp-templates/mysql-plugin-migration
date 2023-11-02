@@ -1,6 +1,6 @@
 FROM alpine
 
-RUN apk update && apk add postgresql-client bash ncurses
+RUN apk update && apk add mysql-client bash ncurses
 
 WORKDIR app
 
