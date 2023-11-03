@@ -1,9 +1,9 @@
-FROM alpine
+FROM ubuntu:jammy
 
-RUN apk update && apk add mysql-client bash ncurses
+RUN apt-get update && apt-get install -y mysql-client bash
 
-WORKDIR app
+WORKDIR /app
 
 ADD . .
 
-CMD bash migrate.sh
+CMD ["bash", "migrate.sh"]
