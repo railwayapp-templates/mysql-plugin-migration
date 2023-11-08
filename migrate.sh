@@ -94,7 +94,7 @@ fi
 section "Dumping database from PLUGIN_URL" 
 
 dump_file="plugin_dump.sql"
-mysqldump -u $PLUGIN_USER -p$PLUGIN_PASSWORD -h $PLUGIN_HOST -P $PLUGIN_PORT --routines --triggers --events --all-databases > $dump_file
+mysqldump -u $PLUGIN_USER -p$PLUGIN_PASSWORD -h $PLUGIN_HOST -P $PLUGIN_PORT --routines --triggers --events $PLUGIN_DB > $dump_file
 
 write_ok "Successfully saved dump to $dump_file"
 
