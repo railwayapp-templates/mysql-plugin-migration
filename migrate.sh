@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sleep 2
+sleep 10
 
 set -o pipefail
 
