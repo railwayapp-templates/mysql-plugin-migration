@@ -38,7 +38,7 @@ trap 'echo "An error occurred. Exiting..."; exit 1;' ERR
 printf "${_BOLD}${_MAGENTA}"
 echo "+-------------------------------------+"
 echo "|                                     |"
-echo "|  Railway Postgres Migration Script  |"
+echo "|   Railway MySQL Migration Script    |"
 echo "|                                     |"
 echo "+-------------------------------------+"
 printf "${_RESET}\n"
@@ -91,10 +91,28 @@ else
   write_warn "The new database is not empty. Found OVERWRITE_DATABASE environment variable. Proceeding with restore."
 fi
 
-section "Dumping database from PLUGIN_URL" 
+section "Dumping database from PLUGIN_URL"
 
 dump_file="plugin_dump.sql"
-mysqldump -u $PLUGIN_USER -p$PLUGIN_PASSWORD -h $PLUGIN_HOST -P $PLUGIN_PORT --routines --triggers --events $PLUGIN_DB > $dump_file
+# Dump all databases except sys databases
+echo 'show databases;' \
+  | mysql \
+    -u $PLUGIN_USER \
+    -p$PLUGIN_PASSWORD \
+    -h $PLUGIN_HOST \
+    -P $PLUGIN_PORT \
+  | grep -Ev "Database|information_schema|mysql|performance_schema|sys" \
+  | xargs \
+      mysqldump \
+        -u $PLUGIN_USER \
+        -p$PLUGIN_PASSWORD \
+        -h $PLUGIN_HOST \
+        -P $PLUGIN_PORT \
+        --routines \
+        --triggers \
+        --events \
+        --databases \
+        $PLUGIN_DB > $dump_file
 
 write_ok "Successfully saved dump to $dump_file"
 
